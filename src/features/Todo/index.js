@@ -75,17 +75,17 @@ function Todo() {
         });
     }
 
-    const renderTodoLst = todoList.filter(todo => filteredStatus === 'all' || filteredStatus ==  todo.status);
+    // const renderTodoLst = todoList.filter(todo => filteredStatus === 'all' || filteredStatus ==  todo.status);
     return(
      <>
      {/* <h1>{filteredStatus}</h1> */}
         <div>
             <TodoList todoList={todoList} onTodoClick={handleTodoClick} />
-            <div>
+            {/* <div>
                 <button onClick={handleShowAllClick}>Show ALL</button>
                 <button onClick={handleShowCompletedClick}>Show Completed</button>
                 <button onClick={handleShowNewClick}>Show new</button>
-            </div>
+            </div> */}
         </div>
      </>   
     )

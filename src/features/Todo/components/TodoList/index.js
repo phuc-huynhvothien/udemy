@@ -13,12 +13,13 @@ function TodoList({ todoList, onTodoClick }) {
     const handleTodoClick = (todo,index)=>{
         onTodoClick(todo,index);
     }
-    console.log("E");
+    console.log(todoList);
     return (
         <ul className="todo-list">
-            {todoList.map((item,index) =>{
-                <li onClick={()=> handleTodoClick(item,index)} className={classnames({completed:  item.status === "completed",'todo-item' : true })} key={item.id}> {item.title} - {item.status} </li>
-            })}
+            {todoList.map((item,index) => {
+            return <li onClick={()=> handleTodoClick(item,index)} className={classnames({completed:  item.status === "completed",'todo-item' : true })} key={item.id}>{item.title} </li>
+                
+        })}
         </ul>
     )
 }
