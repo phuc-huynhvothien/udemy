@@ -1,8 +1,9 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import ListPage from "./pages/ListPage";
 import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import queryString from 'query-string'
 import TodoList from '../Todo/components/TodoList'
+import productApi from '../../api/productApi'
 function Todo() {
     // const match = useRouteMatch();
 
@@ -35,28 +36,32 @@ function Todo() {
     const match  =useRouteMatch();
     const [todoList,setTodoList] = useState(initTodoList);
     const [filteredStatus,setFilteredStatus] = useState(()=>{
-        
         const params = queryString.parse(location.search);
-        console.log(params);
         return params.status || 'all';
     });
-
+    useEffect(()=>{
+        const fetchProducts = async () =>{
+            const productLst = await productApi.getAll();
+            console.log(productLst)
+        }
+        fetchProducts();
+    },[]);
     const handleTodoClick = (todo,idx) =>{
-        const newTodoList = [...todoList];
+        var newTodoList = [...todoList];
         newTodoList[idx] = {
             ...newTodoList[idx],
-            status: newTodoList[idx].status = 'new' ? 'completed' : 'new',
+            status: newTodoList[idx].status == 'new' ? 'completed' : 'new',
         };
         setTodoList(newTodoList);
     }
 
     const handleShowAllClick = () =>{
         setFilteredStatus('all');
-        const queryParams = {status : 'all'};
         history.push({
             pathname : match.path,
-            search : queryString.stringify(queryParams),
+            search : queryString.stringify({status : 'complexxxxxted'}),
         });
+        console.log(match);
     }
     const handleShowCompletedClick =()=>{
         setFilteredStatus('completed');
@@ -75,17 +80,17 @@ function Todo() {
         });
     }
 
-    // const renderTodoLst = todoList.filter(todo => filteredStatus === 'all' || filteredStatus ==  todo.status);
+    const renderTodoLst = todoList.filter(todo => filteredStatus === 'all' || filteredStatus ==  todo.status);
     return(
      <>
      {/* <h1>{filteredStatus}</h1> */}
         <div>
-            <TodoList todoList={todoList} onTodoClick={handleTodoClick} />
-            {/* <div>
+            <TodoList todoList={renderTodoLst} onTodoClick={handleTodoClick} />
+            <div>
                 <button onClick={handleShowAllClick}>Show ALL</button>
                 <button onClick={handleShowCompletedClick}>Show Completed</button>
                 <button onClick={handleShowNewClick}>Show new</button>
-            </div> */}
+            </div>
         </div>
      </>   
     )

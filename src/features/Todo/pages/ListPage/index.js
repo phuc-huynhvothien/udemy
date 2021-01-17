@@ -32,11 +32,11 @@ function ListPage(){
     });
 
     const handleTodoClick = (todo,idx) =>{
-        console.log("Done",todo,idx);
-        const newTodoList = [...todoList];
+        console.log("Done");
+        var newTodoList = [...todoList];
         newTodoList[idx] = {
             ...newTodoList[idx],
-            status: newTodoList[idx].status = 'new' ? 'completed' : 'new',
+            status: newTodoList[idx].status == 'new' ? 'completed' : 'new',
         };
         setTodoList(newTodoList);
     }
@@ -71,7 +71,7 @@ function ListPage(){
      <>
      <h1>{filteredStatus}</h1>
         <div>
-            <TodoList todoList={todoList} onTodoClick={handleTodoClick} />
+            <TodoList todoList={todoList} onTodoClick={() =>handleTodoClick()} />
             <div>
                 <button onClick={handleShowAllClick}>Show ALL</button>
                 <button onClick={handleShowCompletedClick}>Show Completed</button>
