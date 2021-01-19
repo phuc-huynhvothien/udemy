@@ -1,98 +1,26 @@
-import React,{useEffect, useState} from 'react'
-import ListPage from "./pages/ListPage";
-import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
-import queryString from 'query-string'
-import TodoList from '../Todo/components/TodoList'
-import productApi from '../../api/productApi'
-function Todo() {
-    // const match = useRouteMatch();
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import ListPage  from './pages/ListPage'
+import DetailPage  from './pages/DetailPage'
+TodoFeature.propTypes = {
+    
+};
 
-    // return (
-    //     <>
-    //     <Switch>
-    //         <Route path={match.path + "todos"} exact component={ListPage} />
-    //     </Switch>
-    //     </>
-    // )
-    const initTodoList =[
-        {
-            id: 1,
-            title:"EAT",
-            status : 'new'
-        },
-        {
-            id: 2,
-            title:'Sleep',
-            status: 'completed'
-        },
-        {
-            id: 3,
-            title: 'Code',
-            status : 'new'
-        }
-    ];
-    const location = useLocation();
-    const history = useHistory();
-    const match  =useRouteMatch();
-    const [todoList,setTodoList] = useState(initTodoList);
-    const [filteredStatus,setFilteredStatus] = useState(()=>{
-        const params = queryString.parse(location.search);
-        return params.status || 'all';
-    });
-    useEffect(()=>{
-        const fetchProducts = async () =>{
-            const productLst = await productApi.getAll();
-            console.log(productLst)
-        }
-        fetchProducts();
-    },[]);
-    const handleTodoClick = (todo,idx) =>{
-        var newTodoList = [...todoList];
-        newTodoList[idx] = {
-            ...newTodoList[idx],
-            status: newTodoList[idx].status == 'new' ? 'completed' : 'new',
-        };
-        setTodoList(newTodoList);
+function TodoFeature(props) {
+    const match = useRouteMatch();
+    if(match){
+        console.log(match)
     }
 
-    const handleShowAllClick = () =>{
-        setFilteredStatus('all');
-        history.push({
-            pathname : match.path,
-            search : queryString.stringify({status : 'complexxxxxted'}),
-        });
-        console.log(match);
-    }
-    const handleShowCompletedClick =()=>{
-        setFilteredStatus('completed');
-        const queryParams = {status : 'completed'};
-        history.push({
-            pathname : match.path,
-            search : queryString.stringify(queryParams),
-        });
-    }
-    const handleShowNewClick =()=>{
-        setFilteredStatus('new');
-        const queryParams = {status : 'new'};
-        history.push({
-            pathname : match.path,
-            search : queryString.stringify(queryParams),
-        });
-    }
-
-    const renderTodoLst = todoList.filter(todo => filteredStatus === 'all' || filteredStatus ==  todo.status);
-    return(
-     <>
-     {/* <h1>{filteredStatus}</h1> */}
+    return (
         <div>
-            <TodoList todoList={renderTodoLst} onTodoClick={handleTodoClick} />
-            <div>
-                <button onClick={handleShowAllClick}>Show ALL</button>
-                <button onClick={handleShowCompletedClick}>Show Completed</button>
-                <button onClick={handleShowNewClick}>Show new</button>
-            </div>
+            <Switch>
+                <Route path={match.path} component={ListPage} exact />
+                <Route path={`${match.path}/:todo`} component={DetailPage} />
+            </Switch>
         </div>
-     </>   
-    )
+    );
 }
-export default Todo; 
+
+export default TodoFeature;
