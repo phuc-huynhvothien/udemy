@@ -3,6 +3,7 @@ import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import queryString from 'query-string'
 import TodoList from '../../components/TodoList'
 import productApi from '../../../../api/productApi'
+import TodoForm from '../../components/TodoForm';
 function ListPage() {
     // const match = useRouteMatch();
 
@@ -84,9 +85,14 @@ function ListPage() {
     }
 
     const renderTodoLst = todoList.filter(todo => filteredStatus === 'all' || filteredStatus ==  todo.status);
+
+    const handleTodoFormSubmit = (values) =>{
+        console.log("S", values);
+    }
     return(
      <>
-     {/* <h1>{filteredStatus}</h1> */}
+     <h1>TODO WHAT</h1>
+        <TodoForm onSubmit={handleTodoFormSubmit}/>
         <div>
             <TodoList todoList={renderTodoLst} onTodoClick={handleTodoClick} />
             <div>
