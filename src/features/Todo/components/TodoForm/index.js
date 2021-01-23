@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-<<<<<<< HEAD
 import InputField from '../../../../components/form-control/InputField'
 import { useForm } from 'react-hook-form';
 
@@ -12,17 +11,10 @@ const schema = yup.object().shape({
 });
 TodoForm.propTypes = {
     onSubmit: PropTypes.func,
-=======
-import InputField from '../../../../components/form-controls';
-import {useForm} from 'react-hook-form'
-TodoForm.propTypes = {
-    onSubmit : PropTypes.func,
->>>>>>> bce71e70d2cb673ec339b570dd63d38fe7dfeb6e
 };
 
 function TodoForm(props) {
     const form = useForm({
-<<<<<<< HEAD
         defaultValues: {
             title: '',
         },
@@ -39,21 +31,6 @@ function TodoForm(props) {
             <InputField name="title" label="TODO" form={form} />
             <button type="submit">SUbbmit</button>
         </form>
-=======
-        defaultValues:{
-            title  :'',
-        }
-    });
-
-    const handleSubmitX = (valuesX) =>{
-        console.log("vvv",valuesX)
-    }
-    return (
-        <form  onSubmit={form.handleSubmit(handleSubmitX)}>
-            todo Form
-            <InputField name="title" label="Todo" form={form} />
-        </form >
->>>>>>> bce71e70d2cb673ec339b570dd63d38fe7dfeb6e
     );
 }
 
