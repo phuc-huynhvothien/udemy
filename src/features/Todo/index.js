@@ -17,8 +17,8 @@ function TodoFeature(props) {
     return (
         <div>
             <Switch>
-                {/* <Route path={match.path} component={ListPage} exact /> */}
-                <Route path={match.path} component={ListPageDemo} exact />
+                <Route path={match.path} component={ListPage} exact />
+                {/* <Route path={match.path} component={ListPageDemo} exact /> */}
                 <Route path={`${match.path}/:todo`} component={DetailPage} />
             </Switch>
         </div>
