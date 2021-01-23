@@ -3,7 +3,11 @@ import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import queryString from 'query-string'
 import TodoList from '../../components/TodoList'
 import productApi from '../../../../api/productApi'
-function ListPage() {
+ListPageDemo.propTypes = {
+    
+};
+
+function ListPageDemo(props) {
     const initTodoList =[
         {
             id: 1,
@@ -21,58 +25,37 @@ function ListPage() {
             status : 'new'
         }
     ];
-    const location = useLocation();
-    const history = useHistory();
-    const match  =useRouteMatch();
+
+    const location  = useLocation();
+    const history  = useHistory();
+
     const [todoList,setTodoList] = useState(initTodoList);
     const [filteredStatus,setFilteredStatus] = useState(()=>{
         const params = queryString.parse(location.search)
-        return params.status ||  'all'
-    })
-    useEffect(()=>{
-        const fetchProducts = async () =>{
-            const productLst = await productApi.getAll();
-            console.log(productLst)
-        }
-        fetchProducts();
-    },[]);
+        return params.status || 'all'
+    });
     useEffect(()=>{
         const params = queryString.parse(location.search)
-        setFilteredStatus(params.status);
-    },[location.search]);
-    const handleTodoClick = (todo,idx) =>{
-        var newTodoList = [...todoList];
-        newTodoList[idx] = {
-            ...newTodoList[idx],
-            status: newTodoList[idx].status == 'new' ? 'completed' : 'new',
-        };
-        setTodoList(newTodoList);
+        setFilteredStatus(params.status || 'all')
+    },[location.search])
+
+    const handleTodoClick = (status) =>{
+    }
+    const handleShowAllClick = () =>{
+        const params = {status : 'all'};
+        history.push({search : queryString.stringify(params)})
+
+
     }
 
-    const handleShowAllClick = () =>{
-        setFilteredStatus('all');
-        history.push({
-            pathname : match.path,
-            search : queryString.stringify({status : 'complexxxxxted'}),
-        });
-        console.log(match);
+    const handleShowCompletedClick = () =>{
+        setFilteredStatus('completed')
     }
-    const handleShowCompletedClick =()=>{
-        setFilteredStatus('completed');
-        const queryParams = {status : 'completed'};
-        history.push({
-            pathname : match.path,
-            search : queryString.stringify(queryParams),
-        });
+    const handleShowNewClick = () =>{
+        setFilteredStatus('new')
     }
-    const handleShowNewClick =()=>{
-        setFilteredStatus('new');
-        const queryParams = {status : 'new'};
-        history.push({
-            pathname : match.path,
-            search : queryString.stringify(queryParams),
-        });
-    }
+
+    
 
     const renderTodoLst = todoList.filter(todo => filteredStatus === 'all' || filteredStatus ==  todo.status);
     return(
@@ -89,4 +72,5 @@ function ListPage() {
      </>   
     )
 }
-export default ListPage; 
+
+export default ListPageDemo;

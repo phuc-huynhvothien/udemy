@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import ListPage  from './pages/ListPage'
+import ListPageDemo  from './pages/ListPageDemo'
 import DetailPage  from './pages/DetailPage'
 TodoFeature.propTypes = {
     
@@ -16,7 +17,8 @@ function TodoFeature(props) {
     return (
         <div>
             <Switch>
-                <Route path={match.path} component={ListPage} exact />
+                {/* <Route path={match.path} component={ListPage} exact /> */}
+                <Route path={match.path} component={ListPageDemo} exact />
                 <Route path={`${match.path}/:todo`} component={DetailPage} />
             </Switch>
         </div>
